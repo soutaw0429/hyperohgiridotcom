@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="col-lg-8">
+    <!-- Featured blog post-->
+    {% if post %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="small text-muted">{{ post.created_at }}</div>
+                <h2 class="card-title">Posted by {{ post.user.username }}</h2>
+                <p class="card-text">{{ post.content }}</p>
+                <p class="num-comments">{{ post.total_comments }}</p>
+                <form method="post" enctype="multipart/form-data" action="{% url 'public:comment' post.id %}">
+                    {% csrf_token %}
+                    {{ comment_form.as_p }}
+                    <button type="submit" class="btn btn-primary">Post Comment</button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

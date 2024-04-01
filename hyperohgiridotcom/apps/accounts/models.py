@@ -38,3 +38,30 @@ class UserProfile(models.Model):
     
     # Zabutons received by the user(Zabuton = Like)
     total_zabutons_received = models.PositiveIntegerField(default=0)
+
+
+class Post(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    total_comments = models.IntegerField(default=0)
+
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    content = models.TextField()
+    sent_at = models.DateTimeField(auto_now_add=True)
+    num_zabutons = models.PositiveIntegerField(default=0)
+    class Meta:
+        unique_together = ['user', 'post']  # Ensures a user can only comment once on a post
+
+class Zabuton(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        unique_together = ['user', 'comment']  # Ensures a user can only like one comment per post
+
+
+
+

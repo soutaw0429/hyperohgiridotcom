@@ -1,3 +1,38 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        {% url 'public:index' as index_url %}
+        <a class="navbar-brand" href="{{ index_url }}">ハイパーオーギリ.com</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                {% url 'public:index' as index_url %}
+                <li class="nav-item"><a class="nav-link {% if request.path == index_url %}active{% endif %}" href="{{ index_url }}">Home</a></li>
+                {% url 'public:about' as about_url %}
+                <li class="nav-item"><a class="nav-link {% if request.path == about_url %}active{% endif %}" href="{{ about_url }}">About</a></li>
+                {% url 'public:contact' as contact_url %}
+                <li class="nav-item"><a class="nav-link {% if request.path == contact_url %}active{% endif %}" href="{{ contact_url }}">Contact</a></li>
+                {% url 'public:post' as post_url %}
+                <li class="nav-item"><a class="nav-link {% if request.path == index_url %}active{% endif %}" href="{{ post_url }}">Post</a></li>
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Blog</a></li>
+                {% if user.is_authenticated %}
+                    {% url 'accounts:profile' as profile_url %}
+                    <li class="nav-item">Hi {% if request.path == profile_url %}{{ user.username }}{% else %}<a href="{{ profile_url }}">{{ user.username }}</a>{% endif %}!</li>
+                    <li class="nav-item">
+                        <form method="post" action="{% url 'accounts:logout' %}">
+                            {% csrf_token %}
+                            <button type="submit">Logout</button>
+                        </form>
+                    </li> 
+                {% else %}
+                    <li class="nav-item"><a href="{% url 'accounts:login' %}">Login</a></li>
+                {% endif %}   
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<!--
 <div>
     {% url 'public:index' as index_url %}
     <span>{% if request.path == index_url %}Home{% else %}<a href="{{ index_url }}">Home</a>{% endif %}</span>
@@ -20,3 +55,4 @@
         {% endif %}
     </span>
 </div>
+-->

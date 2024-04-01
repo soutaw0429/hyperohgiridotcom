@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start Page</title>
+    <style>
+        body {
+            background-image: url('static/image/SotaWakamatsu_Week14_IndependentResearch_Final_1.png');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex; 
+            justify-content: center;
+            align-items: center;  
+        }
+
+        #container {
+            width: 800px;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        #logo {
+            width: 100%;
+            height: auto;
+            transform: scale(0);
+            transition: transform 2s ease-in-out;
+        }
+
+        #container.zoom-in #logo {
+            transform: scale(1);
+        }
+
+        form {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <img id="logo" src="static/image/image__2024_0221_1739___1_-removebg-preview.png" alt="Logo"> 
+    </div>
+
+    <h2>Login</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">ログイン</button>
+    </form>
+
+    <script>
+        window.onload = function() {
+            document.getElementById('container').classList.add('zoom-in');
+        };
+    </script>
+
+
+    <p>
+        <audio autoplay loop>
+            <source src="static/audio/my_song.mp3"
+                type="audio/mp3">
+        </audio>
+    </p>
+    
+</body>
+</html>

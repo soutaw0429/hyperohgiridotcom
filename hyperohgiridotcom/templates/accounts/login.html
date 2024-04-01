@@ -10,4 +10,7 @@
     <button type="submit">Login</button>
 </form>
 
+{% url 'accounts:register_user' as register_url %}
+<a href="{{ register_url }}">Create Account</a>
+
 {% endblock %}

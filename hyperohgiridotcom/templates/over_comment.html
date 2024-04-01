@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Over Commenting</title>
+    </head>
+
+    <body>
+        <h1>>あなたは既にお題に回答しています</h1>
+        <h2>
+            あなたの回答：<br>
+            {{ content }}
+        </h2><br><br>
+
+        <h3>
+            あなたの回答は<br>
+            {{ num_zabutons }}<br>
+            座布団を獲得しています
+        </h3>
+       
+        <a href="{% url 'public:index' %}">See other posts</a>
+    </body>
+
+
+
+</html>
