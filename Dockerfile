@@ -12,10 +12,15 @@ RUN apt-get update && \
     musl-dev \
     openssl \
     postgresql \
-    libpq-dev
+    libpq-dev \
+    python3-dev \
+    libjpeg-dev
 
 COPY requirements/prod.txt ./requirements/prod.txt
 RUN pip install -r ./requirements/prod.txt
+
+#Install Pillow
+RUN pip install Pillow
 
 COPY manage.py ./manage.py
 COPY hyperohgiridotcom ./hyperohgiridotcom

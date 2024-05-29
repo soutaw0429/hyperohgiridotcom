@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<style>
+    .card img {
+        height: 166; 
+        width: 600px; 
+        float: middle;
+        max-width: 100%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    body
+    {
+        background-image: url(/static/image/SotaWakamatsu_Week14_IndependentResearch_Final_1.png);
+    }
+</style>
+
+
+<div class="container" >
+    <div class="row" style="margin-left: 327px; margin-top: 20px;">
+        <!-- Blog entries-->
+        <div class="col-lg-8">
+            <!-- Featured blog post-->
+            {% if post %}
+                <div class="card mb-4">
+                    <!--<a href="#!"><img class="card-img-top" src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." /></a>-->
+                    <div class="card-body">
+                        <div class="small text-muted">{{ post.created_at }}</div>
+                        {% if post.post_image %}
+                            <img src="{{ post.post_image.url }}">
+                            <hr></hr>
+                        {% endif %}
+                       
+                        <h2 class="card-title">{{ post.content }}</h2>
+                        <p class="card-text"><a href="{% url 'public:user_info'  post.user.id %}">{{ post.user.username }}</a>さんからのお題</p>
+                        <p class="num-comments">回答数：{{ post.total_comments}}</p>
+                        <a class="btn btn-primary" href="{% url 'public:comment' post.id %}">回答する</a>
+                        <hr size="0" width="100%" />
+                        {% for comment in comments %}
+                            <h2>{{ comment.content }}</h2>
+                            <p><a href="{% url 'public:user_info' comment.user.id %}">{{comment.user.username}}</a>さんの回答</p>
+                            <p class="num-comments">獲得座布団数：{{ comment.num_zabutons }}</p>
+                            <a class="btn btn-primary" href="{% url 'public:like_comment' comment.id %}">座布団</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        {% if alert_over_like_comment_id %}
+            alert('既に座布団を付与しています。');
+        {% endif %}
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        {% if alert_over_comment_comment_id %}
+            alert('既にお題に回答しています');
+        {% endif %}
+    });
+</script>
+{% endblock %}

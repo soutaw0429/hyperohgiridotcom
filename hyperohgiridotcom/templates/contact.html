@@ -1,9 +1,45 @@
 {% extends 'base.html' %}
 
-{% block title %}Contact{% endblock %}
+{% block title %}New Post{% endblock %}
 
 {% block content %}
-<h1>
-    Contact
-</h1>
+<body style="background-image: url(static/image/SotaWakamatsu_Week14_IndependentResearch_Final_1.png);">
+<div class="container px-5 my-5">
+    <div class="row justify-content-center" style="margin-top: 150px;">
+        <div class="col-lg-8">
+            <div class="card border-0 rounded-3 shadow-lg">
+                <div class="card-body p-4">
+                    <div class="text-center">
+                        <div class="h1 fw-light">お問い合せ</div>
+                        <p class="mb-4 text-muted">ご意見ご要望などございましたら、教えてください！！</p>
+                    </div>
+
+                    <form method="post" enctype="multipart/form-data" action="{% url 'public:contact' %}">
+                        {% csrf_token %}
+                        <!-- Post Image Input -->
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="id_email_address" type="email" name="email" placeholder="Email Address" required/>
+                            <label for="id_email_address">メールアドレス</label>  
+                        </div>
+
+                        <!-- Content Input -->
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" id="id_contact_content" type="text" name="content" placeholder="Contact Content" style="height: 10rem;" required></textarea>
+                            <label for="id_contact_content">お問い合せ内容</label>
+                            <div class="invalid-feedback">内容を入力してください</div>
+                        </div>
+
+                        <!-- Submit button -->
+                        <div class="d-grid">
+                            <button class="btn btn-primary btn-lg" type="submit">送信する</button>
+                        </div>
+                    </form>
+                    <!-- End of post form -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
 {% endblock %}

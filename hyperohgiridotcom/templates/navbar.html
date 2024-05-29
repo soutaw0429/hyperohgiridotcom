@@ -1,3 +1,35 @@
+<style>
+    .user_pic
+    {
+        border-radius: 50%;
+        height: 30px;
+        width: 30px;
+    }
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .login_btn
+    {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .login_btn:hover
+    {
+        color: white;
+    }
+</style>
+
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         {% url 'public:index' as index_url %}
@@ -5,26 +37,37 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                {% url 'public:ranking' as ranking_url %}
+                <li class="nav-item"><a class="nav-link {% if request.path == ranking_url %}active{% endif %}" href="{{ ranking_url }}">ランキング</a></li>
                 {% url 'public:index' as index_url %}
-                <li class="nav-item"><a class="nav-link {% if request.path == index_url %}active{% endif %}" href="{{ index_url }}">Home</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.path == index_url %}active{% endif %}" href="{{ index_url }}">ホーム</a></li>
                 {% url 'public:about' as about_url %}
-                <li class="nav-item"><a class="nav-link {% if request.path == about_url %}active{% endif %}" href="{{ about_url }}">About</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.path == about_url %}active{% endif %}" href="{{ about_url }}">ルール</a></li>
                 {% url 'public:contact' as contact_url %}
-                <li class="nav-item"><a class="nav-link {% if request.path == contact_url %}active{% endif %}" href="{{ contact_url }}">Contact</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.path == contact_url %}active{% endif %}" href="{{ contact_url }}">お問い合せ</a></li>
                 {% url 'public:post' as post_url %}
-                <li class="nav-item"><a class="nav-link {% if request.path == index_url %}active{% endif %}" href="{{ post_url }}">Post</a></li>
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Blog</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.path == index_url %}active{% endif %}" href="{{ post_url }}">お題を投稿する</a></li>
+            
                 {% if user.is_authenticated %}
                     {% url 'accounts:profile' as profile_url %}
-                    <li class="nav-item">Hi {% if request.path == profile_url %}{{ user.username }}{% else %}<a href="{{ profile_url }}">{{ user.username }}</a>{% endif %}!</li>
-                    <li class="nav-item">
+                    <li class="nav-item" style="margin-left: 1px; color:aliceblue; margin-top:8px; margin-left: 50px;">
+                        {% if request.path == profile_url %}   
+                        {% else %}
+                            {% if user.profile.user_image %}
+                                <a href="{{ profile_url }}"><img class="user_pic" src="{{ user.profile.user_image.url }}"></a>
+                            {% else %}
+                            <a href="{{ profile_url }}">{{ user.username }}</a>
+                            {% endif %}
+                        {% endif %}
+                    </li>
+                    <li class="nav-item" style="margin-left: 100px;">
                         <form method="post" action="{% url 'accounts:logout' %}">
                             {% csrf_token %}
-                            <button type="submit">Logout</button>
+                            <button type="submit">ログアウト</button>
                         </form>
                     </li> 
                 {% else %}
-                    <li class="nav-item"><a href="{% url 'accounts:login' %}">Login</a></li>
+                    <li class="nav-item" style="margin-left: 30px; margin-top:5px;"><a class="login_btn" href="{% url 'accounts:login' %}">ログイン</a></li>
                 {% endif %}   
             </ul>
         </div>

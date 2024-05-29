@@ -1,42 +1,142 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Profile{% endblock %}
 
 {% block content %}
 
-<h1>
-    {{ user.get_full_name }} (@{{user.username}})
-</h1>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        margin: 20px auto;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .profile-img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin-bottom: 20px;
+    }
+    .user-info {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .user-info h1 {
+        margin: 10px 0;
+        color: #333;
+    }
+    .user-info p {
+        margin: 5px 0;
+        color: #666;
+    }
 
-{% with profile=user.profile %}
-    {% if profile %}
-        <h2>
-            {{ profile.persona|default:"" }}
-        </h2>
-        <div>
-            {{ profile.bio|default:"" }}
-        </div>
-        <div>
-            {% with website=profile.website|default:"" %}
-                <a href="{{website}}">{{ website }}</a>
-            {% endwith %}
-        </div>
-        <br/>
-        <div>
-            Interests:
-            {% for interest in profile.interests.all %}
-                <span>
-                    {{ interest.name }}{% if not forloop.last %}, {% endif %}
-                </span>
-            {% endfor %}
-        </div>
-        <div>
-            総獲得座布団数: {{ profile.total_zabutons_received }}
-            
-        </div>
-    {% endif %}
-{% endwith %}
-{% url 'accounts:add_profile' as add_profile_url %}
-<a href="{{ add_profile_url }}">Add Profile Information</a>
+    .ranks
+    {
+        text-align: center;
+        
+    }
+
+    .profile_pic
+    {
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+        border: 3px inset grey;
+        margin-left: 43px;
+    }
+</style>
+    
+<script>
+    function showRank() {
+
+        var numZabuton = "{{ user.profile.total_zabutons_received }}";
+        if (numZabuton >= 0 && numZabuton < 21) {
+            document.write('<h2 style="text-align: center;">足軽</h2>');
+            document.write('<img src="');
+            document.write('{% static "image/IMG_2446.PNG" %}');
+            document.write('" style="width: 200px; height: 150px" alt="Image">');
+        } else if (numZabuton >= 21 && numZabuton < 31) {
+            document.write('<h2 style="text-align: center;">足軽大将</h2>');
+            document.write('<img src="');
+            document.write("{% static 'image/IMG_2447.PNG' %}");
+            document.write('" style="width: 200px; height: 160px" alt="Image">');
+        } else if (numZabuton >= 31 && numZabuton < 41) {
+            document.write('<h2 style="text-align: center;">忍者</h2>');
+            document.write('<img src="');
+            document.write("{% static 'image/IMG_2448.PNG' %}");
+            document.write('" style="width: 200px; height: 230px" alt="Image">');
+        } else if (numZabuton >= 41 && numZabuton < 51) {
+            document.write('<h2 style="text-align: center;">軍師</h2>');
+            document.write('<img src="');
+            document.write("{% static 'image/IMG_2450.PNG' %}");
+            document.write('" style="width: 200px; height: 230px" alt="Image">');
+        } else if (numZabuton >= 51) {
+            document.write('<h2 style="text-align: center;">将軍</h2>');
+            document.write('<img src="');
+            document.write("{% static 'image/IMG_2451.PNG' %}");
+            document.write('" style="width: 200px; height: 180px" alt="Image">');
+        }
+        
+    }
+</script>
+
+<div class="container">
+    {% url 'accounts:add_profile' as add_profile_url %}
+    <a href="{{ add_profile_url }}" style="position: relative; float: right; font-size: 25px; color: grey;">Edit</a>
+    <div class="user-info">
+        {% if profile.user_image %} 
+            <img src='{{ user.profile.user_image.url|default:"" }}' class="profile_pic"/>
+        {% endif %}
+        <h1>{% if user.profile.is_full_name_displayed %}{{ user.last_name }} {{user.first_name}}{% endif %} (@{{user.username}})</h1>
+        <p>獲得座布団数: {{ user.profile.total_zabutons_received }}</p>
+        {% with profile=user.profile %}
+            {% if profile %}
+                <p>{{ profile.persona|default:"" }}</p>
+                <p>
+                    Website: 
+                    {% with website=profile.website|default:"" %}
+                        <a href="{{website}}">{{ website }}</a>
+                    {% endwith %}
+                </p>
+                <p>Email: {{ profile.email|default:"" }}</p>
+            {% endif %}
+        {% endwith %}        
+    </div>
+    <br>
+    <h5 style="text-align: center; font-family: bold;">ランク</h5>
+    <br>
+    <div class="ranks">
+        <script>showRank()</script>
+    </div>
+    {% with profile=user.profile %}
+        {% if profile %}
+            <div class="bio">
+                <h2>Bio</h2>
+                <p>{{ profile.bio|default:"" }}</p>
+            </div>
+            <div class="bio">
+                <h2>趣味</h2>
+                <p>{% if profile.interests.exists %}
+                    {% for interest in profile.interests.all %}
+                        {{ interest.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                    {% else %}
+                        No interests listed.
+                    {% endif %}
+                </p>
+            </div>
+        {% endif %}
+    {% endwith %}
+</div>
+
 
 {% endblock %}
+
+

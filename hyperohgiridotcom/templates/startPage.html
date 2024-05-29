@@ -22,6 +22,7 @@
             width: 800px;
             height: 300px;
             overflow: hidden;
+            margin-left: -10px
         }
 
         #logo {
@@ -41,9 +42,36 @@
             border-radius: 10px;
         }
 
-        button {
-            margin-top: 10px;
+
+    
+        .btn-login {
+            align-items: center;
+            position: absolute;
+            margin-left: -40px;
+            margin-top: 80px;
+            transition: transform
         }
+
+        .btn-register {
+            align-items: center;
+            position: absolute;
+            margin-left: -40px;
+            margin-top: 240px;
+        }
+
+        .lgb-logo
+        {
+            width: 200px;
+            height: 100px;    
+        }
+
+        .rgst-logo
+        {
+            width: 600px;
+            height: 100px;
+        }
+
+
     </style>
 </head>
 
@@ -51,19 +79,57 @@
     <div id="container">
         <img id="logo" src="static/image/image__2024_0221_1739___1_-removebg-preview.png" alt="Logo"> 
     </div>
+   
+    <a class="btn-login" href="{% url 'accounts:login' %}">
+        <img class="lgb-logo" src="static/image/image_2024_0401_1450.png">
+    </a>
 
-    <h2>Login</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">ログイン</button>
-    </form>
+    <a class="btn-register" href="{% url 'accounts:register_user' %}">
+        <img class="lgb-logo" src="static/image/image_2024_0401_1453.png">
+    </a>
 
     <script>
         window.onload = function() {
             document.getElementById('container').classList.add('zoom-in');
+            var blinkAnimation = `
+                @keyframes blink {
+                    0% { opacity: 0; }
+                    10% { opacity: 0; }
+                    20% { opacity: 0; }
+                    30% { opacity: 0; }
+                    40% { opacity: 0; }
+                    50% { opacity: 0; }
+                    60% { opacity: 0; }
+                    70% { opacity: 0; }
+                    80% { opacity: 1; }
+                    82% { opacity: 0; }
+                    84% { opacity: 1; }
+                   
+                }
+            `;
+
+            // Create a style element and append the blinking animation to it
+            var style = document.createElement('style');
+            style.innerHTML = blinkAnimation;
+            document.head.appendChild(style);
+
+            // Apply the blinking animation to the <a> tags
+            var links = document.querySelectorAll('a');
+            links.forEach(function(link) {
+                link.style.animation = 'blink 3.0s';
+                link.style.animationPlayState = 'paused';
+            });
+
+            // Start the blinking animation after window is loaded
+            links.forEach(function(link) {
+                link.style.animationPlayState = 'running'; // Start the blinking animation
+            });
         };
     </script>
+    
+    
+
+    
 
 
     <p>

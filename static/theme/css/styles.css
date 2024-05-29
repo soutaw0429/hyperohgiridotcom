@@ -1288,7 +1288,7 @@ progress {
   }
   .col-lg-6 {
     flex: 0 0 auto;
-    width: 66.66666667%;
+    width: 50%;
   }
   .col-lg-7 {
     flex: 0 0 auto;
@@ -10823,4 +10823,12 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
+
+  .bg-image {
+    background-image: url('static/image/SotaWakamatsu_Week14_IndependentResearch_Final_1.png');
+    background-size: cover;
+    background-position: center;
+  }
+  
 }
+

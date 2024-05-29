@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Forget Password{% endblock %}
+
+{% block content %}
+<div class="container-fluid ps-md-0">
+    <div class="row g-0">
+        <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image" style="background-image: url(/static/image/SotaWakamatsu_Week14_IndependentResearch_Final_1.png); height: 732px;"></div>
+        <div class="col-md-8 col-lg-6" style="margin-top: 150px">
+            <div class="login d-flex align-items-center py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-9 col-lg-8 mx-auto">
+                            <h3 class="login-heading mb-4">プロフィールの設定を行いますか？</h3>
+                            <div class="text-center">
+                                {% url 'accounts:add_profile' as add_profile_url %}
+                                <a href="{{ add_profile_url }}">設定を行う</a>
+                            </div>
+                            <div class="text-center">
+                                {% url 'public:index' as index_url %}
+                                <a href="{{ index_url }}">あとで設定を行う</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

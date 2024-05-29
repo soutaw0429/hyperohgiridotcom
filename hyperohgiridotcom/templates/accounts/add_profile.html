@@ -1,11 +1,130 @@
 {% extends 'base.html' %}
+{% load static%}
 
 {% block content %}
-<h2>Edit Profile Information</h2>
-<form method="post" enctype="multipart/form-data" action="{% url 'accounts:add_profile' %}">
-    {% csrf_token %}
-    {{ user_form.as_p }}
-    {{ profile_form.as_p }}
-    <button type="submit">Save</button>
-</form>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+    .card_container {
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .profile-img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin-bottom: 20px;
+        cursor: pointer;
+        object-fit: cover;
+    }
+    .user-info {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .user-info h2 {
+        margin: 10px 0;
+        color: #333;
+    }
+    .user-info p {
+        margin: 5px 0;
+        color: #666;
+    }
+    .profile-pic-input {
+        display: none;
+    }
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+</style>
+
+
+
+<div class="card_container">
+    <h2 style="float: center;">プロフィールの編集</h2>
+    <div class="user-info">
+        <form method="post" enctype="multipart/form-data" action="{% url 'accounts:add_profile' %}">
+            {% csrf_token %}
+            <div>
+                <img id="profile-img" class="profile-img" {% if user_profile.user_image %} src="{{ user.profile.user_image.url }}" {% else %} src="/static/image/Sample_User_Icon.png" {% endif %}  alt="User Image" onclick="document.getElementById('id_user_image').click();">
+                <input id="id_user_image" class="profile-pic-input" type="file" name="user_image" accept="image/*" onchange="previewImage(event)">
+            </div>
+            <div class="form-floating mb-3">
+                <input class="form-control" id="id_last_name" type="text" name="last_name" placeholder="Last Name" value="{{ user_instance.last_name }}"/>
+                <label for="id_last_name">姓</label>  
+            </div>
+            <div class="form-floating mb-3">
+                <input class="form-control" id="id_first_name" type="text" name="first_name" placeholder="First Name" value="{{ user_instance.first_name }}"/>
+                <label for="id_first_name">名</label>  
+            </div>
+            <div style="margin-top: 30px; margin-bottom: 30px;">
+                <input class="form-check-input" type="checkbox" id="id_is_full_name_displayed" name="is_full_name_displayed" {% if user_profile.is_full_name_displayed %}checked{% endif %}>
+                <label class="form-check-label" for="id_is_full_name_displayed">フルネームを表示</label>
+            </div>
+            
+            <div class="form-floating mb-3">
+                <input class="form-control" id="id_bio" type="text" name="bio" placeholder="Bio" value="{{ user_profile.bio }}"/>
+                <label for="id_bio">情報</label>  
+            </div>
+            
+            <div class="form-floating mb-3">
+                <input class="form-control" id="id_website" type="url" name="website" placeholder="Website" value=""/>
+                <label for="id_website">ウェブサイト</label>  
+            </div>
+            
+            
+            <div class="form-floating mb-3">
+                <select class="form-control" id="id_persona" name="persona" >
+                    <option value="">ユーザータイプ</option>
+                    {% for persona in profile_form.fields.persona.queryset %}
+                        {% if persona.name == '開発者'%}
+                            {% if user_instance.username == 'soutaw0429' %}
+                                <option value="{{ persona.id }}" {% if user_profile.persona and user_profile.persona.id == persona.id %}selected{% endif %}>{{ persona.name }}</option>
+                            {% else %}
+                            {% endif %}
+                        {% else %}
+                            <option value="{{ persona.id }}" {% if user_profile.persona and user_profile.persona.id == persona.id %}selected{% endif %}>{{ persona.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <label for="id_persona">ユーザータイプ</label>  
+            </div>
+            <div class="form-floating mb-3">
+                <select class="form-control" id="id_interests" name="interests" style="height:150px;" multiple>
+                    {% for interest in profile_form.fields.interests.queryset %}
+                        <option value="{{ interest.id }}" {% if interest in profile_form.instance.interests.all %}selected{% endif %}>{{ interest.name }}</option>
+                    {% endfor %}
+                </select>
+                <label for="id_interests">趣味</label>  
+            </div>
+            <button class="btn btn-primary" type="submit">保存する</a>
+        </form>
+    </div>
+</div>
+
+<script>
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function(){
+            const output = document.getElementById('profile-img');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
+
 {% endblock %}

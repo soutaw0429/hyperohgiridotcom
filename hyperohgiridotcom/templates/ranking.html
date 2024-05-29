@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Ranking{% endblock %}
+
+{% block content %}
+<style>
+    img
+    {
+        height: 30px;
+        width: 30px;
+        margin-left: 30px;
+    }
+    .table-container {
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        overflow-x: auto;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    th, td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    tr:hover {
+        background-color: #ddd;
+    }
+    caption {
+        margin-bottom: 10px;
+        font-size: 1.5em;
+        color: #333;
+    }
+</style>
+<script>
+    function showRank(num_zabutons) {
+
+        var numZabuton = num_zabutons;
+        if (numZabuton >= 0 && numZabuton < 21) {
+            document.write('<img src="');
+            document.write('{% static "image/IMG_2446.PNG" %}');
+            document.write('"  alt="Image">');
+        } else if (numZabuton >= 21 && numZabuton < 31) {
+            document.write('<img src="');
+            document.write("{% static 'image/IMG_2447.PNG' %}");
+            document.write('" alt="Image">');
+        } else if (numZabuton >= 31 && numZabuton < 41) {
+            document.write('<img src="');
+            document.write("{% static 'image/IMG_2448.PNG' %}");
+            document.write('" alt="Image">');
+        } else if (numZabuton >= 41 && numZabuton < 51) {
+            document.write('<img src="');
+            document.write("{% static 'image/IMG_2450.PNG' %}");
+            document.write('" alt="Image">');
+        } else if (numZabuton >= 51) {
+            document.write('<img src="');
+            document.write("{% static 'image/IMG_2451.PNG' %}");
+            document.write('" alt="Image">');
+        }
+        
+    }
+</script>
+<body style="background-image: url(/static/image/SotaWakamatsu_Week14_IndependentResearch_Final_1.png);">
+    <div class="container px-5 my-5">
+        <div class="row justify-content-center" style="margin-top: 100px;">
+            <div class="col-lg-8">
+                <div class="card border-0 rounded-3 shadow-lg">
+                    <div class="card-body p-4">
+                        <caption>ユーザー獲得座布団数ランキング</caption>
+                        <table cellpadding="1px">   
+                            <tr>
+                                <td>ランキング</td>
+                                <td style="text-align: center;">ランク</td>
+                                <td>ユーザーID</td>
+                                <td>獲得座布団数</td>
+                            </tr>
+                            {% for user_info in zabuton_rank_user %}
+                                <tr>
+                                    <td>{{ forloop.counter }}位</td>
+                                    <td><script>showRank('{{ user_info.total_zabutons_received }}')</script></td>
+                                    <td><a href="{% url 'public:user_info'  user_info.user.id %}">{{ user_info.user.username }}</a></td>
+                                    <td>{{ user_info.total_zabutons_received }}</td>
+                                </tr>
+
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container px-5 my-5">
+        <div class="row justify-content-center" style="margin-top: 100px;">
+            <div class="col-lg-8">
+                <div class="card border-0 rounded-3 shadow-lg">
+                    <div class="card-body p-4">
+                        <caption>人気お題ランキング</caption>
+                        <table cellpadding="1px">   
+                            <tr>
+                                <td>ランキング</td>
+                                <td>投稿者</td>
+                                <td>お題リンク</td>
+                                <td>総回答数</td>
+                            </tr>
+                            {% for post_info in post_rank %}
+                                <tr>
+                                    <td>{{ forloop.counter }}位</td>
+                                    <td><a href="{% url 'public:user_info'  post_info.user.id %}">{{ post_info.user.username }}</a></td>
+                                    <td><a href="{% url 'public:post_detail' post_info.id %}" class="pst_d_a">お題ページ({{ post_info.id }})</a></td>
+                                    <td>{{ post_info.total_comments }}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

@@ -2,9 +2,15 @@
 <html>
     <head>
         <title>Over Giving Likes</title>
+        <script>
+            function overLikeHandler()
+            {
+                alert("この大喜利には、既に座布団を付与されています");
+            }
+        </script>
     </head>
 
-    <body>
+    <body onload="overLikeHandler()">
         <h1>You already gave a zabuton</h1>
         <a href="{% url 'public:index' %}">See other posts</a>
     </body>

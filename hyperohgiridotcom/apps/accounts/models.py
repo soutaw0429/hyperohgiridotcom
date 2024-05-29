@@ -34,10 +34,16 @@ class UserProfile(models.Model):
     website = models.URLField(max_length=200, blank=True, null=True)
     persona = models.ForeignKey(UserPersona, on_delete=models.SET_NULL, blank=True, null=True)
     interests = models.ManyToManyField(UserInterest, blank=True)
+    user_image = models.ImageField(upload_to='user_images/', null=True, blank=True)
+
+    #email
+    email = models.EmailField(max_length=254, unique=True, null=True)
 
     
     # Zabutons received by the user(Zabuton = Like)
     total_zabutons_received = models.PositiveIntegerField(default=0)
+    def __str__(self):
+        return f'{self.user.username} profile'
 
 
 class Post(models.Model):
@@ -45,6 +51,7 @@ class Post(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     total_comments = models.IntegerField(default=0)
+    post_image = models.ImageField(upload_to='post_images/', null=True, blank=True)
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

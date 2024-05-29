@@ -1,10 +1,45 @@
 {% extends 'base.html' %}
 
+{% block title %}New Post{% endblock %}
+
 {% block content %}
-<h2>New Post</h2>
-<form method="post" enctype="multipart/form-data" action="{% url 'public:post' %}">
-    {% csrf_token %}
-    {{ post_form.as_p }}
-    <button type="submit">Save</button>
-</form>
+<body style="background-image: url(static/image/SotaWakamatsu_Week14_IndependentResearch_Final_1.png);">
+<div class="container px-5 my-5">
+    <div class="row justify-content-center" style="margin-top: 150px;">
+        <div class="col-lg-8">
+            <div class="card border-0 rounded-3 shadow-lg">
+                <div class="card-body p-4">
+                    <div class="text-center">
+                        <div class="h1 fw-light">お題を投稿する</div>
+                        <p class="mb-4 text-muted">他の人の誹謗中傷などを含んだお題の投稿は避けましょう！！</p>
+                    </div>
+
+                    <form method="post" enctype="multipart/form-data" action="{% url 'public:post' %}">
+                        {% csrf_token %}
+                        <!-- Post Image Input -->
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="post_image" type="file" name="post_image" placeholder="Post Image" style="padding-left: 80px;" />
+                            <label for="post_image">お題画像</label>  
+                        </div>
+
+                        <!-- Content Input -->
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" id="post_content" type="text" name="content" placeholder="Post Content" style="height: 10rem;" required></textarea>
+                            <label for="post_content">お題の内容</label>
+                            <div class="invalid-feedback">内容を入力してください</div>
+                        </div>
+
+                        <!-- Submit button -->
+                        <div class="d-grid">
+                            <button class="btn btn-primary btn-lg" type="submit">投稿する</button>
+                        </div>
+                    </form>
+                    <!-- End of post form -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
 {% endblock %}
