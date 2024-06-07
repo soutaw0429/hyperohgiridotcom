@@ -85,12 +85,12 @@ POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', default="")
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': POSTGRES_DB,
-        'USER': POSTGRES_USER,
-        'PASSWORD': POSTGRES_PASSWORD,
-        'HOST': POSTGRES_HOST,
-        'PORT': 5432
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'hyperohgiridotcom',
+        'USER': 'admin',
+        'PASSWORD': '12345',
+        'HOST': 'localhost',
+        'PORT': ''
     }
 }
 
